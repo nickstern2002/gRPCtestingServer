@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package compute.v1;
+
+option go_package = "pkg/protogen/compute/v1";
+
+service junkyardService {
+
+  // MakeMyDayBetter responds with a "friendly" message depending on the contents of the Request
+  rpc MakeMyDayBetter(MakeMyDayBetterRequest) returns (MakeMyDayBetterResponse){}
+}
+
+
+message MakeMyDayBetterRequest {
+  int32 mood = 1;
+}
+
+message MakeMyDayBetterResponse {
+  string message = 1;
+}
