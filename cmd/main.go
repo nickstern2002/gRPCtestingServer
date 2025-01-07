@@ -16,26 +16,29 @@ var (
 )
 
 type server struct {
-	v1.JunkyardServiceServer
+	v1.UnimplementedJunkyardServiceServer
 }
 
-func MakeMyDayBetter(_ context.Context, in *v1.MakeMyDayBetterRequest) (*v1.MakeMyDayBetterResponse, error) {
-	switch mood := in.GetMood(); mood {
+// MakeMyDayBetter returns a string depedning on the value given
+func (s *server) MakeMyDayBetter(_ context.Context, in *v1.MakeMyDayBetterRequest) (*v1.MakeMyDayBetterResponse, error) {
+	resp := &v1.MakeMyDayBetterResponse{}
+	mood := in.GetMood()
+	switch mood {
 	case 0:
-		fmt.Println("Mood 0, L bozo")
+		fmt.Println("Mood 0")
 	case 1:
-		fmt.Println("Mood 1, L bozo")
+		fmt.Println("Mood 1")
 	case 2:
-		fmt.Println("Mood 2, L bozo")
+		fmt.Println("Mood 2")
 	case 3:
-		fmt.Println("Mood 3, L bozo")
+		fmt.Println("Mood 3")
 	default:
-		fmt.Println("Invalid mood, mood must be [0,3]")
+		resp.Message = fmt.Sprintf("Invalid mood, mood must be [0,3]")
+		log.Printf("Invalid mood")
 		return nil, errors.New("Invalid mood")
 	}
-	resp := &v1.MakeMyDayBetterResponse{
-		Message: "oof",
-	}
+	log.Printf("Valid mood")
+	resp.Message = fmt.Sprintf("Mood %d", mood)
 	return resp, nil
 }
 
